@@ -1,0 +1,16 @@
+package scg.fusion.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MessageTopics {
+
+    String DEFAULT_TOPIC_NAME = "default";
+
+    String[] value();
+
+}
