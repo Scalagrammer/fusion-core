@@ -19,7 +19,7 @@ final class AdvisedAutowireJoinPoint implements AutowireJoinPoint {
     }
 
     @Override
-    public FieldJoint at() {
+    public FieldJoint dissect() {
         return new FieldJoint(field);
     }
 

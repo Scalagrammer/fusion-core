@@ -1,11 +1,10 @@
 package scg.fusion;
 
 import java.lang.annotation.Annotation;
-import java.util.Map;
 
 import java.util.stream.Stream;
 
-public interface ComponentFactory extends AutoCloseable, Iterable<Class<?>> {
+public interface ComponentFactory extends AutoCloseable, Iterable<Class<?>>, Autowiring {
 
     @Override
     void close();
@@ -25,7 +24,5 @@ public interface ComponentFactory extends AutoCloseable, Iterable<Class<?>> {
     <T> Stream<T> streamAllSubtypes(Class<T> expectedSuperType);
 
     ComponentFactory swap(Object...components);
-
-    Map<Joint, AutowiringHook> autowiringBy(String pointcut, Object...args);
 
 }

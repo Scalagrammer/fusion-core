@@ -45,6 +45,7 @@ public abstract class Application implements ComponentDiscoveryService, Applicat
             context.byTypeStore.put(MessageBroker.class,       contextInstance);
             context.byTypeStore.put(MessagePublisher.class,    contextInstance);
             context.byTypeStore.put(ComponentFactory.class,    contextInstance);
+            context.byTypeStore.put(Autowiring.class,          contextInstance);
             context.byTypeStore.put(Environment.class,     environmentInstance);
         }
 
@@ -97,9 +98,10 @@ public abstract class Application implements ComponentDiscoveryService, Applicat
                 ComponentScope contextInstance     = instance(context);
                 ComponentScope environmentInstance = instance(context.environment);
                 //
-                context.byTypeStore.put(MessageBroker.class,       contextInstance);
-                context.byTypeStore.put(MessagePublisher.class,    contextInstance);
-                context.byTypeStore.put(ComponentFactory.class,    contextInstance);
+                context.byTypeStore.put(MessageBroker.class,        contextInstance);
+                context.byTypeStore.put(MessagePublisher.class,     contextInstance);
+                context.byTypeStore.put(ComponentFactory.class,     contextInstance);
+                context.byTypeStore.put(Autowiring.class,           contextInstance);
                 context.byTypeStore.put(Environment.class,      environmentInstance);
             }
 

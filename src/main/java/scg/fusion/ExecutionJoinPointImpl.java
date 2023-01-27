@@ -26,7 +26,7 @@ final class ExecutionJoinPointImpl implements ExecutionJoinPoint {
     }
 
     @Override
-    public MethodJoint at() {
+    public MethodJoint dissect() {
         return new MethodJoint(method);
     }
 

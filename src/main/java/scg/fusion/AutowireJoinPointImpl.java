@@ -21,7 +21,7 @@ final class AutowireJoinPointImpl implements AutowireJoinPoint {
     }
 
     @Override
-    public FieldJoint at() {
+    public FieldJoint dissect() {
         return new FieldJoint(field);
     }
 

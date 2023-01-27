@@ -4,7 +4,7 @@ import scg.fusion.Joint;
 
 public interface JoinPoint {
 
-    Joint at();
+    Joint dissect();
 
     Object getComponent();
 

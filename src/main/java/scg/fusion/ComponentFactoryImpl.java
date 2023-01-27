@@ -146,6 +146,8 @@ class ComponentFactoryImpl extends MessageBrokerImpl implements ComponentFactory
 
         ComponentFactoryImpl components = new ComponentFactoryImpl(advisement, environment);
 
+        components.byTypeStore.putAll(byTypeStore);
+
         components.byTypeStore.put(ComponentFactory.class, instance(components));
 
         for (Class<?> componentType : override.keySet()) {
@@ -156,7 +158,7 @@ class ComponentFactoryImpl extends MessageBrokerImpl implements ComponentFactory
 
     }
 
-    public Map<Joint, AutowiringHook> autowiringBy(String pointcut, Object...args) {
+    public Map<Joint, AutowiringHook> by(String pointcut, Object...args) {
 
         for (int i = 0; i < args.length; i++) {
 
@@ -274,22 +276,14 @@ class ComponentFactoryImpl extends MessageBrokerImpl implements ComponentFactory
 
     @Override
     public void onLoad() {
-
-        for (ComponentScope scope : byTypeStore.values()) {
-            scope.onLoad();
-        }
-
-        for (ComponentScope scope : byTypeStore.values()) {
-            scope.afterLoad(this);
-        }
-
+        Set<ComponentScope> lifecycle = new HashSet<>(byTypeStore.values());
+        lifecycle.forEach(LifecycleListener::onLoad);
+        lifecycle.forEach(scope -> scope.afterLoad(this));
     }
 
     @Override
     public void onClose() {
-        for (LifecycleListener scope : byTypeStore.values()) {
-            scope.onClose();
-        }
+        new HashSet<>(byTypeStore.values()).forEach(LifecycleListener::onClose);
     }
 
     @Override
@@ -304,6 +298,7 @@ class ComponentFactoryImpl extends MessageBrokerImpl implements ComponentFactory
     }
 
     private void registerTypes(ComponentScope componentScope, Class<?> componentType) {
+
         register(componentScope, componentType);
 
         if (!isAspectSpecImpl(componentType)) {
@@ -333,10 +328,12 @@ class ComponentFactoryImpl extends MessageBrokerImpl implements ComponentFactory
     }
 
     private void register(ComponentScope scope, Class<?> componentType) {
-        if (byTypeStore.containsKey(componentType) && !override) {
-            throw new IllegalContractException("duplicated component type [%s]", componentType);
-        } else {
-            byTypeStore.put(componentType, scope);
+        if (componentType != Object.class) {
+            if (byTypeStore.containsKey(componentType) && !override) {
+                throw new IllegalContractException("duplicated component type [%s]", componentType);
+            } else {
+                byTypeStore.put(componentType, scope);
+            }
         }
     }
 

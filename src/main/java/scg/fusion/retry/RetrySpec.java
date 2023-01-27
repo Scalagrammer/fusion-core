@@ -2,20 +2,18 @@ package scg.fusion.retry;
 
 import scg.fusion.MethodJoint;
 import scg.fusion.annotation.Around;
-import scg.fusion.annotation.Privileged;
 import scg.fusion.annotation.Retryable;
 import scg.fusion.aop.ExecutionJoinPoint;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.locks.LockSupport.parkNanos;
-import static scg.fusion.annotation.Privileged.HIGHEST_PRIORITY;
 
 public interface RetrySpec {
 
     @Around("@execution(scg.fusion.annotation.Retryable)")
     default Object aroundRetryable(ExecutionJoinPoint joinPoint) throws Throwable {
 
-        MethodJoint joint = joinPoint.at();
+        MethodJoint joint = joinPoint.dissect();
 
         Retryable annotation = joint.getAnnotation(Retryable.class);
 

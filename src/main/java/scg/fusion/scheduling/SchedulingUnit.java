@@ -25,7 +25,7 @@ public final class SchedulingUnit {
     private final List<ScheduledFuture<?>> runningTasks = new ArrayList<>();
 
     private SchedulingUnit(ComponentFactory components) {
-        this.tasks = components.autowiringBy("@execution(%s)", ScheduleAtFixedRate.class);
+        this.tasks = components.by("@execution(%s)", ScheduleAtFixedRate.class);
     }
 
     @Initialize

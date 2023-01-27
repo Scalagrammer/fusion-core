@@ -5,7 +5,7 @@ import scg.fusion.MethodJoint;
 public interface ExecutionJoinPoint extends JoinPoint {
 
     @Override
-    MethodJoint at();
+    MethodJoint dissect();
 
     Object[] getArgs();
 
